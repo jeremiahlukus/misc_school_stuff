@@ -1,0 +1,60 @@
+1) grep 'apex' "run 0.dat"
+This searches for the the word “apex” in “run 0.dat”. Grep is a searching tool. 
+
+
+2) sed -ie 's/apex/maximum altitude/g' "run 0.dat"
+This replaces the word apex to maximum altitude. 
+You can use “ cat “run 0.dat” to see if this worked.
+
+
+3) grep 'apex' "run 0.dat" | sed -ie 's/apex/maximum altitude/g' "run 0.dat"
+
+connects #1 and #2 using a pipeline
+
+ 
+
+4) ( grep 'apex' "run 0.dat" | sed -ie 's/apex/maximum altitude/g' "run 0.dat" ) &
+runs this in the background using &
+
+
+5) for file in *.dat; do grep "hit" "$file"; done;
+for every .dat file i have in the directory, i find the word hit and print it
+
+
+
+6) for file in *.dat; do grep "hit" "$file" | grep -wc "hit"; done; 
+same as number 5 but i used -wc to find how the number of time hit occurred. This problem I got wrong he commented saying i should use wc not -wc . 
+
+
+7) if grep -q 'hit' "run 2.dat"; then echo hit; else echo miss; fi;   
+
+If we find the word hit in “run 2.dat” then print out hit else print miss
+
+
+
+8) for file in *.dat; do printf "$file "; if grep -q 'hit' "$file"; then echo "hit"; else echo "miss"; fi; done
+
+for every .dat file in the directory print the name of the file, if you find the word hit then print hit else print miss 
+I used printf instead of echo once due to formatting printf does not create a new line.
+
+
+9) HITS=0 ; MISSES=0 
+declaring variables 
+
+10) for file in *.dat; do printf "$file "; if grep -q 'hit' "$file"; then let HITS++; echo "hit"; else echo "miss"; let MISSES++; fi; done; 
+
+same as question 8 but i inc HITS and MISSES if they are found. I used “let” but you can use the normal way I was having trouble doing it the normal way then i realized i was missing a “ ; “ 
+
+11) echo $HITS $MISSES  
+prints the values of the variables
+
+
+12) for file in *.dat; do printf "$file "; if grep -q 'hit' "$file"; then let HITS++; echo "hit"; else echo "miss"; let MISSES++; fi; done; if [ $? -eq 0 ] ; then echo $HITS $MISSES; else echo "Your command failed"; fi 
+
+http://linuxcommand.org/lc3_wss0080.php This explains the if statement.
+
+
+13) for file in *.dat; do printf "$file "; if grep -q 'hit' "$file"; then let HITS++; echo "hit"; else echo "miss"; let MISSES++; fi; done > "hits and misses.counts"; if [ $? -eq 0 ] ; then echo $HITS $MISSES; else echo "Your command failed"; fi >> "hits and misses.counts"
+
+does the same thing but uses >> to append the hits and misses in the file
+ 

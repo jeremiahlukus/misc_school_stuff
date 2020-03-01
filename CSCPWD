@@ -1,0 +1,61 @@
+ssh UN @solar.cs.gsu.edu 
+
+UN = a321021
+
+
+
+
+
+
+.section ".data"
+myString: .asciz "The answer is %d "
+
+define(a1, 4)
+define(a2, 14)
+define(temp, 0)
+
+define(x_r, l0)
+define(y_r, l1)
+
+  .align 4
+  .section ".text"
+
+  .global main
+main:
+  save  %sp, -96, %sp
+  clr   %x_r
+
+
+  .global loop
+
+loop:
+
+        sub     %x_r, a1, %o0
+        call    .mul
+        sub     %x_r, a2, %o1
+        
+        mov     %o0, %y_r
+
+        nop
+        set     myString, %o0
+        mov     %y_r, %o1
+        call    printf
+      
+        add     %x_r, 1, %x_r
+        cmp     %x_r, 11
+        bl      loop
+        nop
+
+
+  ret
+  restore
+
+
+
+
+
+This Program will compute y=(x-4)(x-14)For the range 0<=x<=10
+
+
+
+.section ".data"mystring: .asciz "for input of x=%d and output y=%d\n".align 4.section ".text"define(a1, 4)define(a2, 14)define(x_r, l0)define(y_r, l1).global mainmain:save %sp, -96, %spclr %x_rloop:sub %x_r, a1, %o0 !(x-a1) into %o0sub %x_r, a2, %o1 !(x-a2) into %o1call .mulmov %o0, %y_r !stores it in yset mystring, %o0call printfadd %x_r, 1, %x_rcmp %x_r, 10ble loopnopretrestore
